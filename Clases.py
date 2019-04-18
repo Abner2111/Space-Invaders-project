@@ -47,18 +47,18 @@ class jugador(Naves):
         jugador.lista.add(self)
         self.daño_recibido=50#se define cuanto daño puede recibir el jugador
     def movimiento(self,SCREENWIDTH):#se define los movimientos del jugador
-        if self.rect.centerx >570 and self.velx >0:
-            self.velx=0
+        if self.rect.centerx >570 and self.velx >0:#se estable que esta unicabo en el centro
+            self.velx=0#y su velocidad
         elif self.rect.centerx <20 +(self.width) and self.velx <0:
             self.velx=0
             self.rect.x += self.velx
     def revisar_vida(self,lista,vida):
-        if isinstance (jugador.lista,list) and isinstance (jugador.vida,int):
-            return self.revisar_vida_aux(jugador.lista,jugador.vida,0,0)
+        if isinstance (lista,list) and isinstance (vida,int):
+            return self.revisar_vida_aux(lista,jugador.vida,0,0)
         else: return "Error"
                 
     def revisar_vida_aux(self,lista,vida,resultado,indice):
-        if indice==len(jugador.lista):
+        if indice==len(lista):
             return resultado
         elif isinstance (lista[indice],list):
             return (self.revisar_vida_aux(lista[indice],vida,0,0)+self.revisar_vida_aux(lista,vida,resultado,indice+1))
@@ -86,7 +86,7 @@ class enemigo(Naves):
         enemigo.lista.add(self)
         self.dead=False
         self.velx=3
-        self.damagetaken=50
+        self.daño_recibido=50
 
     def movimiento(self,SCREENWIDTH):
         if self.rect.centerx > SCREENWIDTH - (self.width) -20 or self.rect.centerx <20 +(self.width):
@@ -94,22 +94,48 @@ class enemigo(Naves):
             self.rect.centery +=50
             self.rect.x += self.velx
 
-    @staticmethod
-    def disparo():
-        for enemigos in enemigo.list:
-            if enemigos.health!=0:
-                disparo_enemigo(enemy.rect.centerx,enemy.rect.centery,2,10,"../imagenes/disparo_enemigo.jpg")##cambiar direccion y nombre
+    def disparo(self,lista,vida):
+        if isinstance (lista,list) and isinstance (vida,int):
+            return self.disparo_aux(lista,vida,0,0)
+        else: return "Error"
 
+    def disparo_aux(self,lista,vida,resultado,indice):
+        if indice==len(lista):
+            return resultado
+        elif isinstance (lista[indice],list):
+            return self.disparo_aux(lista[indice],vida,0,0)+self.disparo_aux(lista,vida,resultado,indice+1)
+        elif vida !=0:
+            disparo_enemigo(enemigo.rect.centerx,enemigo.rect.centery,2,10,"../imagenes/disparo_enemigo.jpg")
+        #for enemigos in enemigo.list:
+         #   if enemigos.health!=0:
+          #      disparo_enemigo(enemy.rect.centerx,enemy.rect.centery,2,10,"../imagenes/disparo_enemigo.jpg")##cambiar direccion y nombre
 
-    @staticmethod
-    def revisar_vida():
-        for enemigos in enemigo.lista:
-            if enemigos.health==0:
-                if enemu.dead==False:
-                    Naves.score+=5
-                    enemy.image=pygame.image.load("../imagenes/explosiones.gif")
-                    enemy.velx=0
-                    enemy.dead=True
+    def revisar_vida(self,lista,vida):
+        if isinstance (lista,list) and isinstance (vida,int):
+            return self.revisar_vida_aux(lista,vida,0,0)
+        else: return "Error"
+                
+    def revisar_vida_aux(self,lista,vida,resultado,indice):
+        if indice==len(lista):
+            return resultado
+        elif isinstance (lista[indice],list):
+            return (self.revisar_vida_aux(lista[indice],vida,0,0)+self.revisar_vida_aux(lista,vida,resultado,indice+1))
+        elif vida==0:
+            return False
+        Naves.score+=5
+        enemigo.image=pygame.image.load("../imagenes/explosiones.gif")
+        enemy.velx=0
+        enemy.dead=True#revisar aqui
+
+    #@staticmethod
+    #def revisar_vida():
+     #   for enemigos in enemigo.lista:
+      #      if enemigos.health==0:
+       #         if enemu.dead==False:
+        #            Naves.score+=5
+         #           enemy.image=pygame.image.load("../imagenes/explosiones.gif")
+          #          enemy.velx=0
+           #         enemy.dead=True
 
 ##Clase disparo
 class proyectil(pygame.sprite.Sprite):
@@ -134,14 +160,12 @@ class proyectil_jugador(proyectil):
             difference= abs(self.rect.y-last_element.rect.y)
             if difference <= self.height+50:
                 proyectil.allproj.remove(self)
-                return
-            proyectil_jugador.lista.add(self)
+                return proyectil_jugador.lista.add(self)
 
-    @staticmethod
-    def movement(height):
+    
+    def movimiento(height):
         for proyectil in proyectil_jugador.lista:
             proyectil.rect.y += proyectil.vely
-
             if proyectil.rect.y <10:
                 proyectil.allproj.remove(proyectil)
                 proyectil_enemigo.lista.remove(proyectil)
