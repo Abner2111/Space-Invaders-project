@@ -9,14 +9,14 @@ class General(pygame.sprite.Sprite):#Se crea una clase general para el manejo de
         General.allsprites.add(self)
 ##definicion de los objetos y posiciones
         self.image= pygame.image.load(image_string)
-        self.rect= self.image,get_rect()
+        self.rect= self.image.get_rect()
 
         self.width=width
         self.height=height
         self.rect.centerx=x
         self.rect.centery=y
     def draw(self,surface):
-        surface.blit(self.image,(self.rect.x-self.rect.width/2,self.rect.y-self.rect.height))
+        surface.blit(self.image,(self.rect.x-self.rect.width/2, self.rect.y-self.rect.height))
 
     def destroy(self,ClassName):
         ClassName.List.remove(self)
@@ -86,7 +86,7 @@ class enemigo(Naves):
         enemigo.lista.add(self)
         self.dead=False
         self.velx=3
-        self.daño_recibido=50
+        self.dano_recibido=50
 
     def movimiento(self,SCREENWIDTH):
         if self.rect.centerx > SCREENWIDTH - (self.width) -20 or self.rect.centerx <20 +(self.width):
@@ -100,12 +100,12 @@ class enemigo(Naves):
         else: return "Error"
 
     def disparo_aux(self,lista,vida,resultado,indice):
-        if indice==len(lista):
+        if indice == len(lista):
             return resultado
-        elif isinstance (lista[indice],list):
+        elif isinstance(lista[indice],list):
             return self.disparo_aux(lista[indice],vida,0,0)+self.disparo_aux(lista,vida,resultado,indice+1)
-        elif vida !=0:
-            disparo_enemigo(enemigo.rect.centerx,enemigo.rect.centery,2,10,"../imagenes/disparo_enemigo.jpg")
+        elif vida != 0:
+            disparo_enemigo=(enemigo.rect.centerx,enemigo.rect.centery,2,10,"../imagenes/disparo_enemigo.jpg")
         #for enemigos in enemigo.list:
          #   if enemigos.health!=0:
           #      disparo_enemigo(enemy.rect.centerx,enemy.rect.centery,2,10,"../imagenes/disparo_enemigo.jpg")##cambiar direccion y nombre
@@ -113,19 +113,20 @@ class enemigo(Naves):
     def revisar_vida(self,lista,vida):
         if isinstance (lista,list) and isinstance (vida,int):
             return self.revisar_vida_aux(lista,vida,0,0)
-        else: return "Error"
+        else:
+            return "Error"
                 
     def revisar_vida_aux(self,lista,vida,resultado,indice):
         if indice==len(lista):
             return resultado
-        elif isinstance (lista[indice],list):
+        elif isinstance(lista[indice], list):
             return (self.revisar_vida_aux(lista[indice],vida,0,0)+self.revisar_vida_aux(lista,vida,resultado,indice+1))
         elif vida==0:
             return False
         Naves.score+=5
         enemigo.image=pygame.image.load("../imagenes/explosiones.gif")
-        enemy.velx=0
-        enemy.dead=True#revisar aqui
+        enemigo.velx = 0
+        enemigo.dead = True  #revisar aqui
 
     #@staticmethod
     #def revisar_vida():
@@ -148,19 +149,20 @@ class proyectil(pygame.sprite.Sprite):
         self.rect.x=x
         self.rect.y=y
         self.vely=-8
-        proyectil.allproj.add(self)
+        proyectil.allproy.add(self)
         
 class proyectil_jugador(proyectil):
     lista=pygame.sprite.Group()
     lista_normal=[]
-    def __init__(self,x,y,width,height,image_string):
-        proyectil__init__(self,x,y,width,height,image_string)
-        if (len(proyectil_jugador.lista_normal)!=0):
-            last_element=proyectil_jugador.normal_list[-1]
-            difference= abs(self.rect.y-last_element.rect.y)
+
+    def __init__(self, x, y, width, height, image_string):
+        proyectil.__init__(self, x, y, width, height, image_string)
+        if len(proyectil_jugador.lista_normal)!=0:
+            last_element = proyectil_jugador.lista_normal[-1]
+            difference = abs(self.rect.y-last_element.rect.y)
             if difference <= self.height+50:
-                proyectil.allproj.remove(self)
-                return proyectil_jugador.lista.add(self)
+                proyectil.allproy.remove(self)
+                proyectil_jugador.lista.add(self)
 
     
     def movimiento(height):

@@ -2,9 +2,11 @@ import pygame
 import sys
 import random
 from Clases import*
-
+from pygame import ftfont
+pygame.init()
+pygame.font.init()
 def proceso(jugador,fps,frames_totales,sonido_jugador,sonido_enemigo):
-    if isinstance (player,int) and isinstance (fps,int) and isinstance(frames_totales,int) and isinstance (sonido_jugador,int) and isinstance (sonido_enemigo,int):
+    if isinstance(player,int) and isinstance (fps,int) and isinstance(frames_totales, int) and isinstance (sonido_jugador,int) and isinstance(sonido_enemigo,int):
         return self.proceso_aux(jugador,fps,frames_totales,sonido_jugador,sonido_enemigo,0)
     else:return "Error"
     spawn(fps,frames_totales)
@@ -16,6 +18,10 @@ def proceso(jugador,fps,frames_totales,sonido_jugador,sonido_enemigo):
         player.velx=5
     elif keys[pygame.K_a]:
         player.velx=-5
+    elif keys[pygame.K_w]:
+        player.vely=-5
+    elif keys[pygame.K_s]:
+        player.vely=5
     elif keys[pygame.K_SPACE]:
         proyectil_jugador(jugador.rect.centerx,jugador.rect.centery,2,10,"../pics/laser.jpg")
         sonido_jugador.play()
@@ -81,11 +87,13 @@ def colision():
         golpe_jugador = pygame.spritecollide(jugador,enemigo.lista,False)
         if len(golpe_jugador)!=0:
             jugador.vida=0
-    
-    
-        
-    
 
+screen_size = [1280, 720] #variable que contiene dimensiones de pantalla
 
+win = pygame.display.set_mode((screen_size[0],screen_size[1])) #surface principal
 
+pygame.display.set_caption("Space Invaders: by Noel and Abner")
+
+font = pygame_font.Font(None, 20)
+font.render_to(win, (255, 237), "Space Invaders", pygame.Color("White"), size=48)
 
