@@ -55,10 +55,30 @@ class enemigo(Naves):
         self.dead = False
         self.velx = 3
         self.dano_recibido = 50
-    
+        self.formada = True
 
 
 
+class Proyectil(pygame.sprite.Sprite):
+    allproy = pygame.sprite.Group()
+    def __init__(self, x, y, width, height, image_string):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(image_string)
+        self.rect = self.image.get_rect()
+        self.height = height
+        self.rect.x = x
+        self.rect.y = y
+        self.vely=-8
+        proyectil.allproy.add(self)
+class Proyectil_jugador(Proyectil):
+    lista = pygame.sprite.Group()
+
+    def __init__(self, x, y, width, height, image_string):
+        Proyectil.__init__(self, x, y, width, height, image_string)
+    def movimiento(self, x, y):
+        self.rect.y+= proyectil.vely
+class Proyectil_enemigo(Proyectil):
+    lista = pygame.sprite.Group()
 
 
 
