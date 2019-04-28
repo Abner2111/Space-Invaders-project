@@ -2,22 +2,36 @@ import Clases
 from Clases import *
 import cvs_json
 import random
-pygame.init ()
+
+pygame.init()
 
 run = True
 game = False
+white = (255, 255, 255)
 
+#VARIABLES DE PANTALLA
 screen_size = [1280, 720] #tamano de la pantalla
 win = pygame.display.set_mode ((screen_size[0], screen_size[1])) #superficie principal
-
-fuente1 = pygame.font.Font('fonts/space_invaders.ttf', 48) #fuente a usar tamano 48
-fuente2 = pygame.font.Font('fonts/space_invaders.ttf', 28) #fuente a usar tamano 48
 pygame.display.set_caption("Space Invaders")
 
+#FUENTES
+fuente1 = pygame.font.Font('fonts/space_invaders.ttf', 48) #fuente a usar tamano 48
+fuente2 = pygame.font.Font('fonts/space_invaders.ttf', 28) #fuente a usar tamano 48
 
+#FONDO DEL JUEGO
 background = pygame.image.load('images/background.png')
 background = pygame.transform.scale(background, (1280, 720))
 back_rect = background.get_rect()
+
+#MUSICA DE FONDO MENU
+pygame.mixer.music.load('sounds\menu_music.mp3')
+
+pygame.mixer.music.play(-1)
+
+
+#nave jugador
+jugador = Jugador(640, 720, 100, 100, 'images/jugador.png')
+
 
 
 def rand_screen(): #decide aleatoriamente un banner y colores de botones
@@ -27,36 +41,68 @@ def rand_screen(): #decide aleatoriamente un banner y colores de botones
 
 menu_format = rand_screen()
 
-banner = pygame.image.load(menu_format[0])
-banner = pygame.transform.scale(banner, (1280, 330))
+
 texto_jugar = fuente1.render('JUGAR', True, menu_format[3]) #fuente del boton de jugar
 texto_top = fuente2.render('5 MEJORES', True, menu_format[3]) #fuente del top
 
-win.blit(background, (0, 0))
-win.blit(banner, (0, 0))
-bac_boton = pygame.draw.rect(win, menu_format[1], (490, 400, 300, 100))
-front_boton = pygame.draw.rect(win, menu_format[2], (500, 410, 280, 100))
-win.blit(texto_top, (560, 535))
-win.blit(texto_jugar, (550, 435))
+
+def game_screen():
+    jugador.draw(win)
+
+def main_menu(): #
+    global texto_jugar, texto_top, game
+    banner = pygame.image.load(menu_format[0])
+    banner = pygame.transform.scale(banner, (1280, 330))
+    win.blit(background, (0, 0))
+    win.blit(banner, (0, 0))
+    bac_boton = pygame.draw.rect(win, menu_format[1], (490, 400, 300, 100))
+    front_boton = pygame.draw.rect(win, menu_format[2], (500, 410, 280, 100))
+    win.blit(texto_top, (560, 535))
+    win.blit(texto_jugar, (550, 435))
+
+
+
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+    if 500 < mouse[0] < 780 and 410 < mouse[1] < 510:
+        if click[0]:
+            texto_jugar = fuente1.render('JUGAR', True, menu_format[3])
+            pygame.time.delay(50)
+            game = True
+            win.blit (background, (0, 0))
+            game_screen()
+        else:
+            texto_jugar = fuente1.render('JUGAR', True, white)
+    else:
+        texto_jugar = fuente1.render('JUGAR', True, menu_format[3])
+
+    if 560 < mouse[0] < 740 and 535 < mouse[1] < 585:
+        if click[0]:
+            texto_top = fuente2.render('5 MEJORES', True, menu_format[3])
+            pygame.time.delay(50)
+            print("top")
+        texto_top = texto_top = fuente2.render('5 MEJORES', True, white)
+    else:
+        texto_top = fuente2.render('5 MEJORES', True, menu_format[3])
 
 
 
 matriz_enemigos = []
 
 
-def menu ():
-    pass
-
-
 while run:
-    pygame.time.delay (10)
-    for event in pygame.event.get ():
-        if event.type == pygame.QUIT:  # evento presionar equis
-            run = False  # cierra el ciclo pincipal
-    if game:
-        pass
+    if run:
 
-    pygame.time.delay (10)
-    pygame.display.update ()
+        for event in pygame.event.get ():
+            if event.type == pygame.QUIT:  # evento presionar equis
+                run = False  # cierra el ciclo pincipal
+        if game:
+            game_screen()
+        else:
+            main_menu()
+
+    pygame.time.delay(10)
+    pygame.display.update()
 
 pygame.quit ()
