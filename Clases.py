@@ -1,7 +1,7 @@
 from typing import Any
 import pygame
 from pygame import *  #importa todo la biblioteca pygame
-
+import cvs_json
 
 
 class General(pygame.sprite.Sprite):
@@ -11,7 +11,8 @@ class General(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         General.allsprites.add(self)
 
-        self.image = pygame.image.load(image_string)
+        self.carga_imagen = pygame.image.load(image_string)
+        self.image = pygame.transform.scale(self.carga_imagen, (width, height))
         self.rect = self.image.get_rect()
 
         self.width = width
@@ -39,6 +40,10 @@ class Naves(General): #clase general de naves
     def move(self):
         self.rect.x += self.velx
         self.rect.y += self.vely
+    def cambia_vel(self, velocidades):
+        self.velx = velocidades[0]
+        self.vely = velocidades[1]
+
 class Jugador(Naves):
     lista = pygame.sprite.Group()
     lista_disparos=[]

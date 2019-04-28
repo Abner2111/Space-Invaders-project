@@ -1,12 +1,13 @@
-import Clases
 from Clases import *
-import cvs_json
+import csv_json
 import random
 
 pygame.init()
-
 run = True
 game = False
+game_running = False
+file_manager = CSV()
+
 white = (255, 255, 255)
 
 #VARIABLES DE PANTALLA
@@ -29,8 +30,9 @@ pygame.mixer.music.load('sounds\menu_music.mp3')
 pygame.mixer.music.play(-1)
 
 
+
 #nave jugador
-jugador = Jugador(640, 720, 100, 100, 'images/jugador.png')
+jugador = Jugador(640, 720, 60, 60, 'images/jugador.png')
 
 
 
@@ -87,22 +89,44 @@ def main_menu(): #
         texto_top = fuente2.render('5 MEJORES', True, menu_format[3])
 
 
-
 matriz_enemigos = []
 
 
 while run:
-    if run:
 
-        for event in pygame.event.get ():
-            if event.type == pygame.QUIT:  # evento presionar equis
-                run = False  # cierra el ciclo pincipal
-        if game:
-            game_screen()
+    keys = pygame.key.get_pressed()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:  # evento presionar equis
+            run = False  # cierra el ciclo pincipal
+    if game:
+        if game_running:
+            if keys[pygame.K_a]:
+                jugador.cambia_vel([-5, 0])
+                jugador.move()
+                win.blit(background, (0, 0))
+                jugador.draw(win)
+            if keys[pygame.K_d]:
+                jugador.cambia_vel([5, 0])
+                jugador.move()
+                win.blit(background, (0, 0))
+                jugador.draw(win)
+            if keys[pygame.K_w]:
+                jugador.cambia_vel([0, -5])
+                jugador.move()
+                win.blit(background, (0, 0))
+                jugador.draw(win)
+            if keys[pygame.K_s]:
+                jugador.cambia_vel([0, 5])
+                jugador.move()
+                win.blit(background, (0, 0))
+                jugador.draw(win)
+
         else:
-            main_menu()
+            game_screen()
+            game_running = True
+    else:
+        main_menu()
 
-    pygame.time.delay(10)
     pygame.display.update()
 
-pygame.quit ()
+pygame.quit()

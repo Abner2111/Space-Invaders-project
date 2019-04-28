@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Python</ID>
+  <OriginalElement>#C:/Users/abner/Desktop/Proyecto 1/Space-Invaders-project/Clases.py</OriginalElement>
+  <nodes>
+    <node x="646.0" y="1186.0">Clases.Proyectil_jugador</node>
+    <node x="406.0" y="542.0">pygame.sprite.Sprite</node>
+    <node x="154.0" y="1142.0">Clases.Naves</node>
+    <node x="0.0" y="1376.0">Clases.enemigo</node>
+    <node x="523.0" y="897.0">Clases.Proyectil</node>
+    <node x="154.0" y="864.0">Clases.General</node>
+    <node x="384.5" y="0.0">object</node>
+    <node x="308.0" y="1387.0">Clases.Jugador</node>
+    <node x="462.0" y="1208.5">Clases.Proyectil_enemigo</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Clases.Proyectil_jugador" target="Clases.Proyectil">
+      <point x="0.0" y="-48.0" />
+      <point x="790.0" y="1117.0" />
+      <point x="739.0" y="1117.0" />
+      <point x="72.0" y="81.0" />
+    </edge>
+    <edge source="pygame.sprite.Sprite" target="object">
+      <point x="0.0" y="-136.0" />
+      <point x="0.0" y="246.0" />
+    </edge>
+    <edge source="Clases.Proyectil_enemigo" target="Clases.Proyectil">
+      <point x="0.0" y="-25.5" />
+      <point x="544.0" y="1117.0" />
+      <point x="595.0" y="1117.0" />
+      <point x="-72.0" y="81.0" />
+    </edge>
+    <edge source="Clases.Naves" target="Clases.General">
+      <point x="0.0" y="-92.0" />
+      <point x="0.0" y="114.0" />
+    </edge>
+    <edge source="Clases.enemigo" target="Clases.Naves">
+      <point x="0.0" y="-81.0" />
+      <point x="144.0" y="1351.0" />
+      <point x="226.0" y="1351.0" />
+      <point x="-72.0" y="92.0" />
+    </edge>
+    <edge source="Clases.Jugador" target="Clases.Naves">
+      <point x="0.0" y="-70.0" />
+      <point x="452.0" y="1351.0" />
+      <point x="370.0" y="1351.0" />
+      <point x="72.0" y="92.0" />
+    </edge>
+    <edge source="Clases.Proyectil" target="pygame.sprite.Sprite">
+      <point x="0.0" y="-81.0" />
+      <point x="667.0" y="839.0" />
+      <point x="559.0" y="839.0" />
+      <point x="51.0" y="136.0" />
+    </edge>
+    <edge source="Clases.General" target="pygame.sprite.Sprite">
+      <point x="0.0" y="-114.0" />
+      <point x="298.0" y="839.0" />
+      <point x="457.0" y="839.0" />
+      <point x="-51.0" y="136.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.40000000000000013" x="-71.99999999999977" y="934.7499999999997" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+  </Categories>
+</Diagram>
+
