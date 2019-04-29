@@ -1,18 +1,17 @@
 from typing import Any
 import pygame
 from pygame import *  #importa todo la biblioteca pygame
-import cvs_json
 
 
-class General(pygame.sprite.Sprite):
+
+class General(pygame.sprite.Sprite):#se establece la clase general
     allsprites = pygame.sprite.Group() #contenedor para todos los sprites
 
-    def __init__(self, x, y, width, height, image_string):
+    def __init__(self, x, y, width, height, image_string):#se define las caracterisiticas genetrales de las clases con als que se van a trabajar 
         pygame.sprite.Sprite.__init__(self)
         General.allsprites.add(self)
 
-        self.carga_imagen = pygame.image.load(image_string)
-        self.image = pygame.transform.scale(self.carga_imagen, (width, height))
+        self.image = pygame.image.load(image_string)
         self.rect = self.image.get_rect()
 
         self.width = width
@@ -40,10 +39,6 @@ class Naves(General): #clase general de naves
     def move(self):
         self.rect.x += self.velx
         self.rect.y += self.vely
-    def cambia_vel(self, velocidades):
-        self.velx = velocidades[0]
-        self.vely = velocidades[1]
-
 class Jugador(Naves):
     lista = pygame.sprite.Group()
     lista_disparos=[]
@@ -54,6 +49,13 @@ class Jugador(Naves):
         self.destruido = False
     def revisar_derrotado(self):
         return self.destruido
+    def movimiento(self,SCREENWIDTH):#se define los movimientos del jugador
+        if self.rect.centerx >570 and self.velx >0:#se estable que esta unicabo en el centro
+            self.velx=0#y su velocidad
+        elif self.rect.centerx <20 +(self.width) and self.velx <0:#se establece ubicacion y velocidad del jugador
+            self.velx=0## velocidad inicial
+            self.rect.x += self.velx
+    
 class enemigo(Naves):
     lista=pygame.sprite.Group()
     def __init__(self, x, y, width, height, image_string): #posicion
@@ -63,6 +65,11 @@ class enemigo(Naves):
         self.velx = 3
         self.dano_recibido = 50
         self.formada = True
+     def movimiento(self,SCREENWIDTH):# se define la posicion de los enemigos en la pantalla y los movimientos que podra realizar
+        if self.rect.centerx > SCREENWIDTH - (self.width) -20 or self.rect.centerx <20 +(self.width):# es establece la ubicacion en la pantalla
+            self.velx= -self.velx# se define la velocidad de las naves
+            self.rect.centery +=50# se define la posicion que estaran
+            self.rect.x += self.velx
 
 
 
@@ -86,10 +93,3 @@ class Proyectil_jugador(Proyectil):
         self.rect.y+= Proyectil.vely
 class Proyectil_enemigo(Proyectil):
     lista = pygame.sprite.Group()
-
-
-
-
-
-
-
