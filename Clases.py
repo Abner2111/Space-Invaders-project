@@ -93,3 +93,33 @@ class Proyectil_jugador(Proyectil):
         self.rect.y+= Proyectil.vely
 class Proyectil_enemigo(Proyectil):
     lista = pygame.sprite.Group()
+    lista_normal=[]
+    def __init__(self,x,y,width,height,image_string):
+        Proyectil.__init__(self,x,y,width,height,image_String)
+        self.vely=8
+
+        if (len(Proyectil_enemigo.lista)!=0):
+            ultimo_elemento=Proyectil_enemigo.lista_normal[-1]
+            differencia=abs(self.rect.y-ultimo_elemtno.rect.y)
+            if diferencia <= self.height+10:
+                Proyectil.allproj.remove(self)
+                return
+            Proyectil_enemigo.lista_normal.appende(self)
+            Proyectil_enemigo.lista.add(self)
+
+        @staticmethod
+	def movement(height):
+		for proyectil in Proyectil_enemigo.lista:
+			proyectil.rect.y += proyectil.vely
+
+			if projectil.rect.y < 10:
+				Projectil.allproj.remove(proyectil)
+				Proyectil_enemigo.lista.remove(proyectil)
+				del proyectil
+
+			elif proyectil.rect.y > height-10:
+				proyectil.allproj.remove(proyectil)
+				Proyectil_jugador.lista.remove(proyectil)
+				del proyectil
+
+    
